@@ -19,7 +19,7 @@ public class Commands implements CommandExecutor {
       
       switch (cmd.getName().toLowerCase()) {
         case "register":
-          MySqlFunctions.registerPlayer(p, "sdg", "12345", "dsgsdg", "12345");
+          
           break;
       }
     }
