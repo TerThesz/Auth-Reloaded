@@ -1,6 +1,7 @@
 package auth.reloaded;
 
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Connection;
 
@@ -14,7 +15,7 @@ public class MySql {
 
   public void start(Plugin plugin) {
     Configuration config = plugin.getConfig();
-    
+
     username = config.getString("username");
     password = config.getString("password");
     database = config.getString("database");
@@ -24,6 +25,7 @@ public class MySql {
 
     try {
       connect();
+      createTable();
     } catch (ClassNotFoundException e) {
         e.printStackTrace();
     } catch (SQLException e) {
@@ -34,6 +36,20 @@ public class MySql {
   private void connect() throws SQLException, ClassNotFoundException {
     Class.forName("com.mysql.jdbc.Driver");
     connection = DriverManager.getConnection("jdbc:mysql://" + host+ ":" + port + "/" + database, username, password);
+  }
+
+  private void createTable() throws SQLException {
+    String statement = "CREATE TABLE IF NOT EXISTS `" + table + "` (" +
+      "`uuid` CHAR(36) NOT NULL," +
+      "`name` VARCHAR(100) NOT NULL," +
+      "`password_hash` VARCHAR(64) NOT NULL," +
+      "`password_salt` CHAR(5) NOT NULL," +
+      "`ip_hash` VARCHAR(64) NOT NULL," +
+      "`ip_salt` CHAR(5) NOT NULL," +
+      "PRIMARY KEY (`uuid`));";
+    PreparedStatement create_table = getConnection().prepareStatement(statement);
+
+    create_table.executeUpdate();
   }
 
   public void end() {
