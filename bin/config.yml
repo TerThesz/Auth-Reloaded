@@ -7,3 +7,5 @@ password: 'password'
 table: 'auth_reloaded' 
 
 shut-down-server-on-mysql-error: true
+
+# Auth settings

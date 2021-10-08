@@ -66,4 +66,21 @@ public class MySqlFunctions {
       e.printStackTrace();
     }
   }
+
+  public static Integer getIps(Player p) {
+    PreparedStatement ips;
+    try {
+      ips = mysql.getConnection().prepareStatement("SELECT name FROM `" + table + "` WHERE ip_hash=?");
+      ips.setString(1, "poop");
+      ResultSet results = ips.executeQuery();
+
+      if (results.next())
+        return results.getInt(1);
+      else return 0;
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return -1;
+  }
 }
