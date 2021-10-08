@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
 public class Events implements Listener {
@@ -22,7 +24,18 @@ public class Events implements Listener {
 
   @EventHandler(priority = EventPriority.HIGH)
   public void onPlayerMove(PlayerMoveEvent event) {
-    if (!isUnauthenticated(event.getPlayer().getUniqueId())) event.setCancelled(true);
+    if (isUnauthenticated(event.getPlayer().getUniqueId())) {
+      Location from = event.getFrom();
+      Location to = event.getTo();
+      
+      if (from.getX() != to.getX() && from.getY() != to.getY())
+        event.setCancelled(true);
+    }
+  }
+
+  @EventHandler
+  public void onPlayerLeave(PlayerQuitEvent event) {
+    removeUnauthenticated(event.getPlayer().getUniqueId());
   }
 
   public static boolean isUnauthenticated(UUID uuid) {
@@ -36,7 +49,7 @@ public class Events implements Listener {
     return true;
   }
 
-  public static boolean setAuthenticated(UUID uuid) {
+  public static boolean removeUnauthenticated(UUID uuid) {
     if (!isUnauthenticated(uuid)) return false;
 
     unauthenticated.remove(uuid);
