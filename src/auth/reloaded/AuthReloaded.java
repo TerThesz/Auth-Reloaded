@@ -8,7 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class AuthReloaded extends JavaPlugin {
   private ConsoleCommandSender console = Bukkit.getConsoleSender();
-  public static MySql mysql;
+  public static MySql mysql = new MySql();
 
   @Override
   public void onEnable() {
@@ -46,7 +46,8 @@ public class AuthReloaded extends JavaPlugin {
     console.sendMessage(ChatColor.GREEN + "[Auth-Reloaded] Disabling plugin.");
     saveDefaultConfig();
 
-    mysql.end();
+    if (mysql.isConnected())
+      mysql.end();
     if (!mysql.isConnected())
       console.sendMessage(ChatColor.GREEN + "[Auth-Reloaded] MySQL disconnected.");
 
