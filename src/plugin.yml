@@ -2,3 +2,9 @@ name: Auth-Reloaded
 version: 1.0.0
 main: auth.reloaded.AuthReloaded
 author: TerThesz
+
+commands:
+  register:
+    usage: /<command> <password> <confirm-password>
+    description: Register command
+    aliases: [reg]
