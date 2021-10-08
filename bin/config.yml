@@ -7,3 +7,7 @@ password: 'password'
 table: 'auth_reloaded' 
 
 shut-down-server-on-mysql-error: true
+
+# Auth settings
+max-registers-per-ip: 3
+allowed-commands-for-unauthenticated: [ login, l, register, reg ]

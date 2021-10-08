@@ -17,8 +17,8 @@ public class AuthReloaded extends JavaPlugin {
   public void onEnable() {
     console.sendMessage(ChatColor.GREEN + "[Auth-Reloaded] Enabling plugin.");
 
-    for (String cmd : Commands.cmds)
-      this.getCommand(cmd).setExecutor(new Commands());
+    for (String cmd : CommandHandler.cmds)
+      this.getCommand(cmd).setExecutor(new CommandHandler());
 
     Bukkit.getServer().getPluginManager().registerEvents(new Events(), this);
 
@@ -42,6 +42,11 @@ public class AuthReloaded extends JavaPlugin {
     }
 
     console.sendMessage(ChatColor.GREEN + "[Auth-Reloaded] Plugin is enabled.");
+
+    if (Bukkit.getOnlinePlayers().size() > 0) {
+      for (Player p : Bukkit.getOnlinePlayers())
+        Events.setUnauthenticated(p.getUniqueId());
+    }
   }
 
   @Override
