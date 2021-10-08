@@ -56,7 +56,7 @@ public class Events implements Listener {
   @EventHandler
   public void preCommand(PlayerCommandPreprocessEvent event) {
     if (isUnauthenticated(event.getPlayer().getUniqueId())) {
-      if (!plugin.getConfig().getStringList("allowed-commands-for-unauthenticated").contains(event.getMessage().split(" ")[1].replace("/", "").toLowerCase()))
+      if (!plugin.getConfig().getStringList("allowed-commands-for-unauthenticated").contains(event.getMessage().split(" ")[0].replace("/", "").toLowerCase()))
         event.setCancelled(true);
     }
   }
