@@ -6,6 +6,9 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import auth.reloaded.mysql.MySql;
+import auth.reloaded.mysql.MySqlFunctions;
+
 public class AuthReloaded extends JavaPlugin {
   private ConsoleCommandSender console = Bukkit.getConsoleSender();
   public static MySql mysql = new MySql();
@@ -37,6 +40,8 @@ public class AuthReloaded extends JavaPlugin {
       else
         Bukkit.getServer().getPluginManager().disablePlugin(this);
     }
+
+    console.sendMessage("" + MySqlFunctions.playerHasEntry(Bukkit.getPlayer("TerThesz")));
 
     console.sendMessage(ChatColor.GREEN + "[Auth-Reloaded] Plugin is enabled.");
   }

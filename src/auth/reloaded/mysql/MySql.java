@@ -1,4 +1,4 @@
-package auth.reloaded;
+package auth.reloaded.mysql;
 
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,8 +10,9 @@ import org.bukkit.plugin.Plugin;
 
 public class MySql {
   private Connection connection;
-  private String username, host, database, password, table;
+  private String username, host, database, password;
   private Integer port;
+  public String table;
 
   public void start(Plugin plugin) {
     Configuration config = plugin.getConfig();
