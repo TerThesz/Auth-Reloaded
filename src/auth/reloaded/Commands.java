@@ -19,7 +19,8 @@ public class Commands implements CommandExecutor {
       
       switch (cmd.getName().toLowerCase()) {
         case "register":
-          
+          // TODO: Register command
+          // TODO: Remove user from unauthenticated
           break;
       }
     }

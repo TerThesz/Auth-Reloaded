@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,7 +14,10 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.plugin.Plugin;
+
+import auth.reloaded.mysql.MySqlFunctions;
 
 public class Events implements Listener {
   private final Plugin plugin = AuthReloaded.getPlugin(AuthReloaded.class);
@@ -21,6 +25,13 @@ public class Events implements Listener {
 
   @EventHandler(priority = EventPriority.HIGH)
   public void onPlayerLogin(PlayerLoginEvent event) {
+    Integer ips = MySqlFunctions.getIps(event.getPlayer());
+    if (ips >= plugin.getConfig().getInt("max-registers-per-ip"))
+      event.disallow(Result.KICK_OTHER, ChatColor.RED + "Too many accounts have registered using this IP.");
+
+    if (ips == -1)
+      event.disallow(Result.KICK_OTHER, ChatColor.RED + "Something went wrong. Please contact the server administrator.");
+
     setUnauthenticated(event.getPlayer().getUniqueId());
   }
 

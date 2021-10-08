@@ -9,3 +9,4 @@ table: 'auth_reloaded'
 shut-down-server-on-mysql-error: true
 
 # Auth settings
+max-registers-per-ip: 3

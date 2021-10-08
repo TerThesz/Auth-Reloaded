@@ -60,8 +60,6 @@ public class MySqlFunctions {
       create.executeUpdate();
 
       p.sendMessage(ChatColor.GREEN + "You have been successfully registered.");
-
-      // TODO: Remove user from unauthenticated
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -73,6 +71,8 @@ public class MySqlFunctions {
       ips = mysql.getConnection().prepareStatement("SELECT count(*) FROM `" + table + "` WHERE ip_hash=?");
       ips.setString(1, "poop");
       ResultSet results = ips.executeQuery();
+
+      // TODO: Use ip_hashes
 
       if (results.next())
         return results.getInt(1);
