@@ -70,7 +70,7 @@ public class MySqlFunctions {
   public static Integer getIps(Player p) {
     PreparedStatement ips;
     try {
-      ips = mysql.getConnection().prepareStatement("SELECT name FROM `" + table + "` WHERE ip_hash=?");
+      ips = mysql.getConnection().prepareStatement("SELECT count(*) FROM `" + table + "` WHERE ip_hash=?");
       ips.setString(1, "poop");
       ResultSet results = ips.executeQuery();
 
