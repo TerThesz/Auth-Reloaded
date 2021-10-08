@@ -28,7 +28,7 @@ public class Events implements Listener {
       Location from = event.getFrom();
       Location to = event.getTo();
       
-      if (from.getX() != to.getX() && from.getY() != to.getY())
+      if (from.getX() != to.getX() && from.getZ() != to.getZ())
         event.setCancelled(true);
     }
   }
