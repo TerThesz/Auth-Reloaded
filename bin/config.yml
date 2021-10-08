@@ -5,3 +5,5 @@ database: ''
 username: ''
 password: ''
 table: '' 
+
+shut-down-server-on-mysql-error: true

@@ -3,6 +3,7 @@ package auth.reloaded;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class AuthReloaded extends JavaPlugin {
@@ -12,6 +13,7 @@ public class AuthReloaded extends JavaPlugin {
   @Override
   public void onEnable() {
     console.sendMessage(ChatColor.GREEN + "[Auth-Reloaded] Enabling plugin.");
+
     for (String cmd : Commands.cmds)
       this.getCommand(cmd).setExecutor(new Commands());
 
@@ -24,6 +26,17 @@ public class AuthReloaded extends JavaPlugin {
     mysql.start();
     if (mysql.isConnected())
       console.sendMessage(ChatColor.GREEN + "[Auth-Reloaded] MySQL connected.");
+    else {
+      for (Player p : Bukkit.getOnlinePlayers()) {
+        if (p.isOp())
+          p.sendMessage(ChatColor.RED + "Check console for MySQL errors.");
+      }
+
+      if (getConfig().getBoolean("shut-down-server-on-mysql-error"))
+        Bukkit.shutdown();
+      else
+        Bukkit.getServer().getPluginManager().disablePlugin(this);
+    }
 
     console.sendMessage(ChatColor.GREEN + "[Auth-Reloaded] Plugin is enabled.");
   }
