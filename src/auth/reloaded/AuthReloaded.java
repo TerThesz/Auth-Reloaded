@@ -41,7 +41,7 @@ public class AuthReloaded extends JavaPlugin {
         Bukkit.getServer().getPluginManager().disablePlugin(this);
     }
 
-    console.sendMessage("" + MySqlFunctions.playerHasEntry(Bukkit.getPlayer("TerThesz")));
+    console.sendMessage("" + MySqlFunctions.playerHasEntry(Bukkit.getPlayer("4a86e8d3")));
 
     console.sendMessage(ChatColor.GREEN + "[Auth-Reloaded] Plugin is enabled.");
   }

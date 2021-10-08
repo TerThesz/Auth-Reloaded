@@ -7,8 +7,10 @@ import java.util.UUID;
 
 import org.bukkit.entity.Player;
 
+import auth.reloaded.AuthReloaded;
+
 public class MySqlFunctions {
-  private static MySql mysql = new MySql();
+  private static MySql mysql = AuthReloaded.mysql;
   private static String table = mysql.table;
 
   public static boolean playerHasEntry(Player p) {
