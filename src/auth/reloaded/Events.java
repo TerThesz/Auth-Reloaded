@@ -13,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -59,6 +60,11 @@ public class Events implements Listener {
       if (!plugin.getConfig().getStringList("allowed-commands-for-unauthenticated").contains(event.getMessage().split(" ")[0].replace("/", "").toLowerCase()))
         event.setCancelled(true);
     }
+  }
+
+  @EventHandler
+  public void onInteract(PlayerInteractEvent event) {
+    if (isUnauthenticated(event.getPlayer().getUniqueId())) event.setCancelled(true);
   }
 
   @EventHandler

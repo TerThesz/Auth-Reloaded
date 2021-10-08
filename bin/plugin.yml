@@ -8,3 +8,7 @@ commands:
     usage: /<command> <password> <confirm-password>
     description: Register command
     aliases: [reg]
+  login:
+    usage: /<command> <password>
+    description: Login command
+    aliases: [l]
