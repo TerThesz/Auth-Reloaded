@@ -23,7 +23,7 @@ public class AuthReloaded extends JavaPlugin {
     saveDefaultConfig();
     console.sendMessage(ChatColor.GREEN + "[Auth-Reloaded] Plugin setup finished.");
 
-    mysql.start();
+    mysql.start(this);
     if (mysql.isConnected())
       console.sendMessage(ChatColor.GREEN + "[Auth-Reloaded] MySQL connected.");
     else {

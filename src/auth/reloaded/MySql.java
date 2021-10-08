@@ -12,10 +12,9 @@ public class MySql {
   private String username, host, database, password, table;
   private Integer port;
 
-  private Plugin plugin = AuthReloaded.getPlugin(AuthReloaded.class);
-  private Configuration config = plugin.getConfig();
-
-  public void start() {
+  public void start(Plugin plugin) {
+    Configuration config = plugin.getConfig();
+    
     username = config.getString("username");
     password = config.getString("password");
     database = config.getString("database");
