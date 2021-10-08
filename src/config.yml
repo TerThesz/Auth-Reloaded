@@ -1,0 +1,9 @@
+# MySQL configuration
+host: 'mysql.host.com'
+port: 3306
+database: 'database'
+username: 'admin'
+password: 'password'
+table: 'auth_reloaded' 
+
+shut-down-server-on-mysql-error: true
