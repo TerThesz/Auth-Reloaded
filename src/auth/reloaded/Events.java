@@ -11,6 +11,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -42,6 +44,19 @@ public class Events implements Listener {
       Location to = event.getTo();
       
       if (from.getX() != to.getX() && from.getZ() != to.getZ())
+        event.setCancelled(true);
+    }
+  }
+
+  @EventHandler(priority = EventPriority.HIGH)
+  public void onChat(AsyncPlayerChatEvent event) {
+    if (isUnauthenticated(event.getPlayer().getUniqueId())) event.setCancelled(true);
+  }
+
+  @EventHandler
+  public void preCommand(PlayerCommandPreprocessEvent event) {
+    if (isUnauthenticated(event.getPlayer().getUniqueId())) {
+      if (!plugin.getConfig().getStringList("allowed-commands-for-unauthenticated").contains(event.getMessage().split(" ")[1].replace("/", "").toLowerCase()))
         event.setCancelled(true);
     }
   }
