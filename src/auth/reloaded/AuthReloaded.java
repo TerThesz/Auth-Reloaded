@@ -17,8 +17,8 @@ public class AuthReloaded extends JavaPlugin {
   public void onEnable() {
     console.sendMessage(ChatColor.GREEN + "[Auth-Reloaded] Enabling plugin.");
 
-    for (String cmd : Commands.cmds)
-      this.getCommand(cmd).setExecutor(new Commands());
+    for (String cmd : CommandHandler.cmds)
+      this.getCommand(cmd).setExecutor(new CommandHandler());
 
     Bukkit.getServer().getPluginManager().registerEvents(new Events(), this);
 
