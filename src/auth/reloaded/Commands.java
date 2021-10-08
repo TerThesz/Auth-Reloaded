@@ -7,10 +7,12 @@ import org.bukkit.plugin.Plugin;
 
 public class Commands implements CommandExecutor {
   private final Plugin plugin = AuthReloaded.getPlugin(AuthReloaded.class);
-  public static String[] cmds = {};
+  public static String[] cmds = {"register"};
 
   @Override
   public boolean onCommand(CommandSender sender, Command cmd, String arg2, String[] args) {
+    
+    
     return true;
   }
 }
