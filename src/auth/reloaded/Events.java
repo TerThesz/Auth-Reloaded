@@ -22,22 +22,22 @@ public class Events implements Listener {
 
   @EventHandler(priority = EventPriority.HIGH)
   public void onPlayerMove(PlayerMoveEvent event) {
-    if (!isAuthenticated(event.getPlayer().getUniqueId())) event.setCancelled(true);
+    if (!isUnauthenticated(event.getPlayer().getUniqueId())) event.setCancelled(true);
   }
 
-  public static boolean isAuthenticated(UUID uuid) {
-    return (!unauthenticated.contains(uuid));
+  public static boolean isUnauthenticated(UUID uuid) {
+    return (unauthenticated.contains(uuid));
   }
 
   public static boolean setUnauthenticated(UUID uuid) {
-    if (isAuthenticated(uuid)) return false;
+    if (isUnauthenticated(uuid)) return false;
 
     unauthenticated.add(uuid);
     return true;
   }
 
   public static boolean setAuthenticated(UUID uuid) {
-    if (!isAuthenticated(uuid)) return false;
+    if (!isUnauthenticated(uuid)) return false;
 
     unauthenticated.remove(uuid);
     return true;
