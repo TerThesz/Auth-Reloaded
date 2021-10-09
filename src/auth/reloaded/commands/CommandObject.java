@@ -15,10 +15,7 @@ public class CommandObject {
   public CommandObject(String name, Integer minArgs, Class<? extends ExecutableCommand> command) {
     this.name = name;
     this.minArgs = minArgs;
-  }
-
-  public static CommandBuilder builder() {
-    return new CommandBuilder();
+    this.command = command;
   }
 
   public String getName() {
@@ -35,6 +32,10 @@ public class CommandObject {
 
   public Class<? extends ExecutableCommand> command() {
     return command;
+  }
+
+  public static CommandBuilder builder() {
+    return new CommandBuilder();
   }
 
   public static final class CommandBuilder {
