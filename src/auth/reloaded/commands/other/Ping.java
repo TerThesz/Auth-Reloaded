@@ -9,5 +9,4 @@ public class Ping extends PlayerCommand {
   protected void runCommand(Player player, String[] arguments) {
     player.sendMessage("Pong!");
   }
-  
 }

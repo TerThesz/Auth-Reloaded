@@ -3,14 +3,16 @@ package auth.reloaded.commands;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 public class CommandHandler {
-  private Map<Class<? extends ExecutableCommand>, ExecutableCommand> commands;
+  private Map<Class<? extends ExecutableCommand>, ExecutableCommand> commands = new HashMap<Class<? extends ExecutableCommand>, ExecutableCommand>();
   private static List<String> availableCommands = Arrays.asList(new String[] {"prd"});
 
   public static List<String> getCommands() {
