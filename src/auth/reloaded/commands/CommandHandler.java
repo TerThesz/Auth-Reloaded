@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class CommandHandler {
   private Map<Class<? extends ExecutableCommand>, ExecutableCommand> commands = new HashMap<Class<? extends ExecutableCommand>, ExecutableCommand>();
@@ -30,9 +32,10 @@ public class CommandHandler {
     
     for (CommandObject command : CommandInitializer.getCommands()) {
       if (command.getName().equalsIgnoreCase(cmd.getName())) {
-        commands.get(command.getCommand()).executeCommand(sender, args);
+        if (checkError(sender, command.getMinArgs() != null && args.length < command.getMinArgs(), "Not enough arguments. Expected: " + command.getClass())) return true;
+        if (checkError(sender, sender instanceof Player && ((Player) sender).hasPermission(command.getPermission()), "Insufficient permissions.")) return true;
 
-        // TODO: Check minArgs, hasToBeOnline, permissions
+        commands.get(command.getCommand()).executeCommand(sender, args);
         
         executed = true;
       }
@@ -58,5 +61,12 @@ public class CommandHandler {
     } catch (ReflectiveOperationException e) {
         throw new IllegalStateException("Could not invoke no-args constructor of class " + clazz, e);
     }
+  }
+
+  private boolean checkError(CommandSender sender, Boolean sendMessage, String message) {
+    if (sendMessage == true)
+      sender.sendMessage(ChatColor.RED + message);
+    
+    return sendMessage;
   }
 }

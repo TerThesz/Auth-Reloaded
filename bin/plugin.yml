@@ -15,3 +15,8 @@ commands:
   prd:
     usage: /<command>
     description: ping
+    permission: poop.fart
+
+permissions:
+  poop.fart:
+    default: op
