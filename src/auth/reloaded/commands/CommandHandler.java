@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -44,8 +45,10 @@ public class CommandHandler {
     for (CommandObject command : commandObjects)
       classes.add(command.getCommand());
 
-    for (Class<? extends ExecutableCommand> clazz : classes)
+    for (Class<? extends ExecutableCommand> clazz : classes) {
+      Bukkit.getConsoleSender().sendMessage("" + clazz);
       commands.put(clazz, newInstance(clazz));
+    }
   }
 
   public static <T> T newInstance(Class<T> clazz) {
