@@ -73,7 +73,7 @@ public class CommandObject {
       return this;
     }
 
-    public CommandBuilder permissions(String permission) {
+    public CommandBuilder permission(String permission) {
       this.permission = permission;
       return this;
     }

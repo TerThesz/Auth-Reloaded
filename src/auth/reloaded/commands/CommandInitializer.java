@@ -25,6 +25,7 @@ public class CommandInitializer {
       .name("prd")
       .minArgs(0)
       .command(Ping.class)
+      .permission("poop.fart")
       .register();
 
     commands = ImmutableList.of(register, ping);
