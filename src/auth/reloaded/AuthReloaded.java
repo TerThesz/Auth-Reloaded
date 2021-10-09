@@ -24,7 +24,7 @@ public class AuthReloaded extends JavaPlugin {
     Bukkit.getServer().getPluginManager().registerEvents(new Events(), this);
 
     getConfig().options().copyDefaults(true);
-    saveDefaultConfig();
+    saveDefaultConfig(); 
     console.sendMessage(ChatColor.GREEN + "[Auth-Reloaded] Plugin setup finished.");
 
     mysql.start(this);
