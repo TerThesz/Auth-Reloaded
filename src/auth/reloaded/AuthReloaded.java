@@ -8,11 +8,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+import auth.reloaded.commands.CommandHandler;
 import auth.reloaded.mysql.MySql;
 
 public class AuthReloaded extends JavaPlugin {
   private ConsoleCommandSender console = Bukkit.getConsoleSender();
   public static MySql mysql = new MySql();
+
+  private CommandHandler commandHandler = new CommandHandler();
 
   @Override
   public void onEnable() {
@@ -61,7 +64,10 @@ public class AuthReloaded extends JavaPlugin {
   }
 
   @Override
-  public boolean onCommand(CommandSender sender, Command cmd, String label, String[] agrs) {
-    return true;
+  public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    if (CommandHandler.getCommands().contains(cmd.getName().toLowerCase()))
+      return commandHandler.handleCommand(sender, cmd, label, args);
+
+    return false;
   }
 }
