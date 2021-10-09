@@ -12,3 +12,6 @@ commands:
     usage: /<command> <password>
     description: Login command
     aliases: [l]
+  prd:
+    usage: /<command>
+    description: ping
