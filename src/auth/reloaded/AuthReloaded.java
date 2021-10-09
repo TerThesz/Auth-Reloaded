@@ -5,9 +5,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 
 import auth.reloaded.mysql.MySql;
-import auth.reloaded.mysql.MySqlFunctions;
 
 public class AuthReloaded extends JavaPlugin {
   private ConsoleCommandSender console = Bukkit.getConsoleSender();
@@ -16,9 +17,6 @@ public class AuthReloaded extends JavaPlugin {
   @Override
   public void onEnable() {
     console.sendMessage(ChatColor.GREEN + "[Auth-Reloaded] Enabling plugin.");
-
-    for (String cmd : CommandHandler.cmds)
-      this.getCommand(cmd).setExecutor(new CommandHandler());
 
     Bukkit.getServer().getPluginManager().registerEvents(new Events(), this);
 
@@ -60,5 +58,10 @@ public class AuthReloaded extends JavaPlugin {
       console.sendMessage(ChatColor.GREEN + "[Auth-Reloaded] MySQL disconnected.");
 
     console.sendMessage(ChatColor.GREEN + "[Auth-Reloaded] Plugin is disabled.");
+  }
+
+  @Override
+  public boolean onCommand(CommandSender sender, Command cmd, String label, String[] agrs) {
+    return true;
   }
 }

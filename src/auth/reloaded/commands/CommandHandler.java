@@ -1,4 +1,4 @@
-package auth.reloaded;
+package auth.reloaded.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -6,11 +6,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import auth.reloaded.mysql.MySqlFunctions;
+import auth.reloaded.AuthReloaded;
 
 public class CommandHandler implements CommandExecutor {
   private final Plugin plugin = AuthReloaded.getPlugin(AuthReloaded.class);
-  public static String[] cmds = {"register"};
+  public static String[] cmds = {"register", "test"};
 
   @Override
   public boolean onCommand(CommandSender sender, Command cmd, String arg2, String[] args) {
