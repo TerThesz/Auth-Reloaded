@@ -32,7 +32,7 @@ public class CommandHandler {
     
     for (CommandObject command : CommandInitializer.getCommands()) {
       if (command.getName().equalsIgnoreCase(cmd.getName())) {
-        if (checkError(sender, command.getMinArgs() != null && args.length < command.getMinArgs(), "Not enough arguments. Expected: " + command.getClass())) return true;
+        if (checkError(sender, command.getMinArgs() != null && args.length < command.getMinArgs(), "Not enough arguments. Expected: " + command.getMinArgs())) return true;
         commands.get(command.getCommand()).executeCommand(sender, args);
 
         executed = true;
