@@ -13,10 +13,12 @@ import auth.reloaded.other.Utils;
 public class RegisterOther implements ExecutableCommand {
   @Override
   public void executeCommand(CommandSender sender, String[] args) {
-    Player player = Bukkit.getPlayer(args[3]);
+    Player player = Bukkit.getPlayer(args[0]);
 
     String password = args[1],
       confirm_password = args[2];
+
+    // TODO: password length
 
     if (player == null) {
       sender.sendMessage(ChatColor.RED + "This player does not exist.");
