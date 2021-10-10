@@ -35,6 +35,32 @@ public class MySqlFunctions {
     return false;
   }
 
+  public static boolean loginPlayer(Player p, String password) {
+    UUID uuid = p.getUniqueId();
+
+    PreparedStatement hasEntry;
+    try {
+      hasEntry = mysql.getConnection().prepareStatement("SELECT * FROM `" + table + "` WHERE uuid=?");
+    
+      hasEntry.setString(1, uuid.toString());
+
+      ResultSet results = hasEntry.executeQuery();
+      results.next();
+
+      if (!playerHasEntry(p)) {
+        p.sendMessage(ChatColor.RED + "You are not registered.\nUse " + ChatColor.BOLD + "/register <password> <confirm-password> " + ChatColor.RED + "instead.");
+        return false;
+      }
+
+      p.sendMessage(results.getString("password"));
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    p.sendMessage(ChatColor.RED + "Something went wrong. Please contact the server administrator.");
+    return false;
+  }
+
   public static boolean registerPlayer(Player p, String password_hash, String password_salt, String ip_hash, CommandSender player_to_send_message_to) {
     UUID uuid = p.getUniqueId();
 
