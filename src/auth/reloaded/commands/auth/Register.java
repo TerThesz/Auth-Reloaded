@@ -1,6 +1,5 @@
 package auth.reloaded.commands.auth;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -28,7 +27,6 @@ public class Register extends PlayerCommand {
 
     Boolean isRegistered = MySqlFunctions.registerPlayer(player, password_hash, password_salt, ip_hash);
 
-    if (isRegistered)
-      Utils.authenticated(player, "You have been successfully registered.");
+    if (isRegistered) Utils.authenticated(player);
   }
 }
