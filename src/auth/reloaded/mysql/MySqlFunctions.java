@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import com.mysql.jdbc.Statement;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -49,13 +51,15 @@ public class MySqlFunctions {
         return false;
       }
 
-      PreparedStatement create = mysql.getConnection().prepareStatement("INSERT INTO `" + table + "` VALUES (?,?,?,?,?)");
+      PreparedStatement create = mysql.getConnection().prepareStatement("INSERT INTO `" + table + "` VALUES (default,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
       
       create.setString(1, uuid.toString());
       create.setString(2, p.getDisplayName());
-      create.setString(3, password_hash);
-      create.setString(4, password_salt);
+      create.setString(3, p.getName());
+      create.setString(4, password_hash + "." + password_salt);
       create.setString(5, ip_hash);
+      create.setLong(6, System.currentTimeMillis() / 1000L);
+      create.setString(7, null);
 
       create.executeUpdate();
 
@@ -73,7 +77,7 @@ public class MySqlFunctions {
   public static Integer getIps(String ip) {
     PreparedStatement ips;
     try {
-      ips = mysql.getConnection().prepareStatement("SELECT count(*) FROM `" + table + "` WHERE ip_hash=?");
+      ips = mysql.getConnection().prepareStatement("SELECT count(*) FROM `" + table + "` WHERE ip=?");
       ips.setString(1, Hash.hash(ip));
 
       ResultSet results = ips.executeQuery();
