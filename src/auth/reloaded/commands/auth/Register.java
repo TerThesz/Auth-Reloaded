@@ -23,6 +23,8 @@ public class Register extends PlayerCommand {
     }
 
     if (args.length >= 3) {
+      if (!player.hasPermission("auth-reloaded.register-others")) return;
+
       Player other_player = Bukkit.getPlayer(args[2]);
       if (other_player == null || !other_player.isOnline()) {
         player.sendMessage(ChatColor.RED + "Specified player doesn't exist or is not online.");
