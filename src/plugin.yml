@@ -5,18 +5,33 @@ author: TerThesz
 
 commands:
   register:
-    usage: /<command> <password> <confirm-password>
+    usage: /<command> <password> <confirm-password> [player]
     description: Register command
     aliases: [reg]
+    permission: auth-reloaded.register
   login:
     usage: /<command> <password>
     description: Login command
     aliases: [l]
-  prd:
-    usage: /<command>
-    description: ping
-    permission: poop.fart
+    permission: auth-reloaded.login
+
+# TODO: Try making dynamic permission error messages
+# TODO: logout & unregister others
 
 permissions:
-  poop.fart:
+  auth-reloaded.*:
+    description: All auth-reloaded permissions
+    default: false
+    children:
+      auth-reloaded.register: true
+      auth-reloaded.login: true
+      auth-reloaded.register-others: true
+  auth-reloaded.register:
+    description: Register command
+    default: true
+  auth-reloaded.login:
+    description: Login command
+    default: true
+  auth-reloaded.register-others:
+    description: Register others
     default: op

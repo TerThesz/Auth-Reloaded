@@ -1,5 +1,9 @@
 package auth.reloaded;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
@@ -14,6 +18,8 @@ import auth.reloaded.mysql.MySql;
 public class AuthReloaded extends JavaPlugin {
   private ConsoleCommandSender console = Bukkit.getConsoleSender();
   public static MySql mysql = new MySql();
+
+  public static List<UUID> unauthenticated_players = new ArrayList<UUID>();
 
   private CommandHandler commandHandler = new CommandHandler();
 
@@ -46,7 +52,7 @@ public class AuthReloaded extends JavaPlugin {
 
     if (Bukkit.getOnlinePlayers().size() > 0) {
       for (Player p : Bukkit.getOnlinePlayers())
-        Events.setUnauthenticated(p.getUniqueId());
+        addToUnauthenticated(p.getUniqueId());
     }
   }
 
@@ -69,5 +75,23 @@ public class AuthReloaded extends JavaPlugin {
       return commandHandler.handleCommand(sender, cmd, label, args);
 
     return false;
+  }
+
+  public static boolean isUnauthenticated(UUID uuid) {
+    return (unauthenticated_players.contains(uuid));
+  }
+
+  public static boolean addToUnauthenticated(UUID uuid) {
+    if (isUnauthenticated(uuid)) return false;
+
+    unauthenticated_players.add(uuid);
+    return true;
+  }
+
+  public static boolean removeFromUnauthenticated(UUID uuid) {
+    if (!isUnauthenticated(uuid)) return false;
+
+    unauthenticated_players.remove(uuid);
+    return true;
   }
 }

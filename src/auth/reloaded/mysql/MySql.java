@@ -46,7 +46,6 @@ public class MySql {
       "`password_hash` VARCHAR(64) NOT NULL," +
       "`password_salt` CHAR(5) NOT NULL," +
       "`ip_hash` VARCHAR(64) NOT NULL," +
-      "`ip_salt` CHAR(5) NOT NULL," +
       "PRIMARY KEY (`uuid`));";
     PreparedStatement create_table = getConnection().prepareStatement(statement);
 
