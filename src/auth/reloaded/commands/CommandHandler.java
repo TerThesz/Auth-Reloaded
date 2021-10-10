@@ -14,8 +14,7 @@ import org.bukkit.command.CommandSender;
 
 public class CommandHandler {
   private Map<Class<? extends ExecutableCommand>, ExecutableCommand> commands = new HashMap<Class<? extends ExecutableCommand>, ExecutableCommand>();
-  private static List<String> availableCommands = Arrays.asList(new String[] {"register", "register-other"});
-  // TODO: Automatically add commands on .initializeCommands()
+  private static List<String> availableCommands = Arrays.asList();
 
   public static List<String> getCommands() {
     return availableCommands;
@@ -44,8 +43,10 @@ public class CommandHandler {
 
   private void mapCommands(List<CommandObject> commandObjects) {
     List<Class<? extends ExecutableCommand>> classes = new ArrayList<Class<? extends ExecutableCommand>>();
-    for (CommandObject command : commandObjects)
+    for (CommandObject command : commandObjects) {
       classes.add(command.getCommand());
+      availableCommands.add(command.getName());
+    }
 
     for (Class<? extends ExecutableCommand> clazz : classes)
       commands.put(clazz, newInstance(clazz));

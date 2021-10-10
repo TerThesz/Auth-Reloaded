@@ -1,6 +1,7 @@
 package auth.reloaded;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -15,15 +16,20 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import auth.reloaded.mysql.MySqlFunctions;
 
 public class Events implements Listener {
   private final Plugin plugin = AuthReloaded.getPlugin(AuthReloaded.class);
+
+  private static List<UUID> protected_players = new ArrayList<UUID>();
 
   @EventHandler(priority = EventPriority.HIGH)
   public void onPlayerLogin(PlayerLoginEvent event) {
@@ -40,6 +46,14 @@ public class Events implements Listener {
 
     if (ips == -1)
       event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, ChatColor.RED + "Something went wrong. Please contact the server administrator.");
+  }
+
+  @EventHandler(priority = EventPriority.HIGH)
+  public void onPlayerJoin(PlayerJoinEvent event) {
+    if (AuthReloaded.isUnauthenticated(event.getPlayer().getUniqueId()))
+      event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 200, 1));
+
+    // TODO: Dynamic duration based on login timeout
   }
 
   @EventHandler(priority = EventPriority.HIGH)
@@ -84,5 +98,18 @@ public class Events implements Listener {
   @EventHandler
   public void onPlayerLeave(PlayerQuitEvent event) {
     AuthReloaded.removeFromUnauthenticated(event.getPlayer().getUniqueId());
+  }
+
+  public static void protect(Player p, Integer duration) {
+    if (protected_players.contains(p.getUniqueId())) return;
+
+    protected_players.add(p.getUniqueId());
+
+    Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(AuthReloaded.getPlugin(AuthReloaded.class), new Runnable() {
+      public void run() {
+        if (protected_players.contains(p.getUniqueId()))
+          protected_players.remove(p.getUniqueId());
+      }
+    }, (duration * 20));
   }
 }
