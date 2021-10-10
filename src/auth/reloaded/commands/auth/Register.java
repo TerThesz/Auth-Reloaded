@@ -10,10 +10,14 @@ import auth.reloaded.mysql.MySqlFunctions;
 import auth.reloaded.other.Utils;
 
 public class Register extends PlayerCommand {
+  private Boolean registerOther = false;
+
   @Override
   public void runCommand(Player player, String[] args) {
     String password = args[0],
       confirm_password = args[1];
+
+    Player player_to_send_message_to = player;
 
     // TODO: password length
 
@@ -31,24 +35,15 @@ public class Register extends PlayerCommand {
         return;
       }
 
-      String password_salt = Hash.salt();
-      String password_hash = Hash.hash(password + password_salt);
-      String ip_hash = Hash.hash(other_player.getAddress().toString().replace("/", "").split(":")[0]);
-
-      Boolean isRegistered = MySqlFunctions.registerPlayer(other_player, password_hash, password_salt, ip_hash);
-
-      if (isRegistered) {
-        Utils.authenticated(other_player);
-
-        player.sendMessage(ChatColor.GREEN + "Player has been successfully registered.");
-      }
+      player = other_player;
+      registerOther = true;
     }
 
     String password_salt = Hash.salt();
     String password_hash = Hash.hash(password + password_salt);
     String ip_hash = Hash.hash(player.getAddress().toString().replace("/", "").split(":")[0]);
 
-    Boolean isRegistered = MySqlFunctions.registerPlayer(player, password_hash, password_salt, ip_hash);
+    Boolean isRegistered = MySqlFunctions.registerPlayer(player, password_hash, password_salt, ip_hash, player_to_send_message_to);
 
     if (isRegistered) Utils.authenticated(player);
   }
