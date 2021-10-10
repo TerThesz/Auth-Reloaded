@@ -60,6 +60,7 @@ public class MySqlFunctions {
       create.executeUpdate();
 
       p.sendMessage(ChatColor.GREEN + "You have been successfully registered.");
+      if (player_to_send_message_to != p) player_to_send_message_to.sendMessage(ChatColor.GREEN + "Player has been successfully registered.");
       return true;
     } catch (SQLException e) {
       e.printStackTrace();
