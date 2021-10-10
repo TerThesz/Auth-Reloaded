@@ -45,7 +45,7 @@ public class MySqlFunctions {
       results.next();
 
       if (playerHasEntry(p)) {
-        p.sendMessage(ChatColor.RED + (p == player_to_send_message_to ? "You are" : "Player is") + " already registered.\nUse " + ChatColor.BOLD + "/login <password>" + ChatColor.RED + " instead.");
+        player_to_send_message_to.sendMessage(ChatColor.RED + (p == player_to_send_message_to ? "You are" : "Player is") + " already registered.\nUse " + ChatColor.BOLD + "/login <password>" + ChatColor.RED + " instead.");
         return false;
       }
 
@@ -59,13 +59,13 @@ public class MySqlFunctions {
 
       create.executeUpdate();
 
-      player_to_send_message_to.sendMessage(ChatColor.GREEN + "You have been successfully registered.");
+      p.sendMessage(ChatColor.GREEN + "You have been successfully registered.");
       return true;
     } catch (SQLException e) {
       e.printStackTrace();
     }
 
-    p.sendMessage(ChatColor.RED + "Something went wrong. Please contact the server administrator.");
+    player_to_send_message_to.sendMessage(ChatColor.RED + "Something went wrong. Please contact the server administrator.");
     return false;
   }
 
