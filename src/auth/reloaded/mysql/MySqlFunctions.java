@@ -45,7 +45,7 @@ public class MySqlFunctions {
       results.next();
 
       if (playerHasEntry(p)) {
-        player_to_send_message_to.sendMessage(ChatColor.RED + (p == player_to_send_message_to ? "You are" : "Player is") + " already registered.\nUse " + ChatColor.BOLD + "/login <password>" + ChatColor.RED + " instead.");
+        player_to_send_message_to.sendMessage(ChatColor.RED + (p == player_to_send_message_to ? "You are already registered.\nUse " + ChatColor.BOLD + "/login <password>" + ChatColor.RED + " instead." : "Player is already registered."));
         return false;
       }
 
