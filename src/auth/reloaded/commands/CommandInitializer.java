@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 
 import auth.reloaded.commands.auth.Register;
+import auth.reloaded.commands.auth.RegisterOther;
 
 public class CommandInitializer {
   private static List<CommandObject> commands;
@@ -19,7 +20,13 @@ public class CommandInitializer {
       .minArgs(2)
       .command(Register.class)
       .register();
+  
+    CommandObject register_other = CommandObject.builder()
+      .name("register-other")
+      .minArgs(3)
+      .command(RegisterOther.class)
+      .register();
 
-    commands = ImmutableList.of(register);
+    commands = ImmutableList.of(register, register_other);
   }
 }

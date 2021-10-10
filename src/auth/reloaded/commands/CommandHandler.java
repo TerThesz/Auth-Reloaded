@@ -14,7 +14,7 @@ import org.bukkit.command.CommandSender;
 
 public class CommandHandler {
   private Map<Class<? extends ExecutableCommand>, ExecutableCommand> commands = new HashMap<Class<? extends ExecutableCommand>, ExecutableCommand>();
-  private static List<String> availableCommands = Arrays.asList(new String[] {"register"});
+  private static List<String> availableCommands = Arrays.asList(new String[] {"register", "register-other"});
   // TODO: Automatically add commands on .initializeCommands()
 
   public static List<String> getCommands() {

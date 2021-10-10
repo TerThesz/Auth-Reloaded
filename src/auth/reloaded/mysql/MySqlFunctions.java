@@ -8,6 +8,7 @@ import java.util.UUID;
 import com.mysql.jdbc.Statement;
 
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import auth.reloaded.AuthReloaded;
@@ -34,7 +35,7 @@ public class MySqlFunctions {
     return false;
   }
 
-  public static boolean registerPlayer(Player p, String password_hash, String password_salt, String ip_hash, Player player_to_send_message_to) {
+  public static boolean registerPlayer(Player p, String password_hash, String password_salt, String ip_hash, CommandSender player_to_send_message_to) {
     UUID uuid = p.getUniqueId();
 
     PreparedStatement hasEntry;
