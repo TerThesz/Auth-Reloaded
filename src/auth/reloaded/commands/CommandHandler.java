@@ -14,14 +14,10 @@ import org.bukkit.command.CommandSender;
 
 public class CommandHandler {
   private Map<Class<? extends ExecutableCommand>, ExecutableCommand> commands = new HashMap<Class<? extends ExecutableCommand>, ExecutableCommand>();
-  private static List<String> availableCommands = Arrays.asList();
+  private static List<String> availableCommands = new ArrayList<String>();
 
   public static List<String> getCommands() {
     return availableCommands;
-  }
-
-  private static void addCommand(String cmd) {
-    availableCommands.add(cmd);
   }
 
   public CommandHandler() {
@@ -49,7 +45,7 @@ public class CommandHandler {
     List<Class<? extends ExecutableCommand>> classes = new ArrayList<Class<? extends ExecutableCommand>>();
     for (CommandObject command : commandObjects) {
       classes.add(command.getCommand());
-      addCommand(command.getName());
+      availableCommands.add(command.getName());
     }
 
     for (Class<? extends ExecutableCommand> clazz : classes)
