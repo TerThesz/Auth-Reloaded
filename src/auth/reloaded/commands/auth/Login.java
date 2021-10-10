@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 
 import auth.reloaded.AuthReloaded;
 import auth.reloaded.commands.PlayerCommand;
+import auth.reloaded.mysql.MySqlFunctions;
 
 public class Login extends PlayerCommand {
   @Override
@@ -16,6 +17,7 @@ public class Login extends PlayerCommand {
       return;
     }
 
-    
+    MySqlFunctions.loginPlayer(player, password);
+    // TODO: I ended here (It works as intended)
   }
 }
