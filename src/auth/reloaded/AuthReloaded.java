@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -23,9 +24,13 @@ public class AuthReloaded extends JavaPlugin {
 
   private CommandHandler commandHandler = new CommandHandler();
 
+  private static Plugin plugin;
+
   @Override
   public void onEnable() {
     console.sendMessage(ChatColor.GREEN + "[Auth-Reloaded] Enabling plugin.");
+
+    plugin = this;
 
     Bukkit.getServer().getPluginManager().registerEvents(new Events(), this);
 
@@ -93,5 +98,9 @@ public class AuthReloaded extends JavaPlugin {
 
     unauthenticated_players.remove(uuid);
     return true;
+  }
+
+  public static Plugin getPluginInstance() {
+    return plugin;
   }
 }

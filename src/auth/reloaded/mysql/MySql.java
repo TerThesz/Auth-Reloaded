@@ -41,12 +41,15 @@ public class MySql {
 
   private void createTable() throws SQLException {
     String statement = "CREATE TABLE IF NOT EXISTS `" + table + "` (" +
-      "`uuid` CHAR(36) NOT NULL," +
-      "`name` VARCHAR(100) NOT NULL," +
-      "`password_hash` VARCHAR(64) NOT NULL," +
-      "`password_salt` CHAR(5) NOT NULL," +
-      "`ip_hash` VARCHAR(64) NOT NULL," +
-      "PRIMARY KEY (`uuid`));";
+      "  `id` MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT," +
+      "  `uuid` CHAR(36) NOT NULL," +
+      "  `username` VARCHAR(100) NOT NULL," +
+      "  `realname` CHAR(100) NOT NULL," +
+      "  `password` VARCHAR(100) NOT NULL," +
+      "  `ip` VARCHAR(64) NULL," +
+      "  `register_date` BIGINT(20) NULL," +
+      "  `last_login_date` BIGINT(20) NULL," +
+      "PRIMARY KEY (`id`));";
     PreparedStatement create_table = getConnection().prepareStatement(statement);
 
     create_table.executeUpdate();

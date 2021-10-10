@@ -7,13 +7,18 @@ commands:
   register:
     usage: /<command> <password> <confirm-password> [player]
     description: Register command
-    aliases: [reg]
+    aliases: [reg, r]
     permission: auth-reloaded.register
   login:
     usage: /<command> <password>
     description: Login command
-    aliases: [l]
+    aliases: [log, l]
     permission: auth-reloaded.login
+  register-other:
+    usage: /<command> <player> <password> <confirm-password>
+    description: Register another player
+    aliases: [rego, ro, registerother]
+    permission: auth-reloaded.register-other
 
 # TODO: Try making dynamic permission error messages
 # TODO: logout & unregister others
@@ -32,6 +37,6 @@ permissions:
   auth-reloaded.login:
     description: Login command
     default: true
-  auth-reloaded.register-others:
+  auth-reloaded.register-other:
     description: Register others
     default: op

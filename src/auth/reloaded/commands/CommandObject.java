@@ -8,10 +8,11 @@ public class CommandObject {
   private static ConsoleCommandSender console = Bukkit.getConsoleSender();
 
   private String name;
-    private Integer minArgs;
+  private Integer minArgs;
   private Class<? extends ExecutableCommand> command;
 
   // TODO: status messages
+  // TODO: description and other stuff for help commands
 
   public CommandObject(String name, Integer minArgs, Class<? extends ExecutableCommand> command) {
     this.name = name;
