@@ -26,7 +26,7 @@ public class RegisterOther implements ExecutableCommand {
     }
 
     if (!password.equals(confirm_password)) {
-      player.sendMessage(ChatColor.RED + "Passwords don't match!");
+      sender.sendMessage(ChatColor.RED + "Passwords don't match!");
       return;
     }
 
