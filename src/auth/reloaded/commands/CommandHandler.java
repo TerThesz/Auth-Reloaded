@@ -20,6 +20,10 @@ public class CommandHandler {
     return availableCommands;
   }
 
+  private static void addCommand(String cmd) {
+    availableCommands.add(cmd);
+  }
+
   public CommandHandler() {
     CommandInitializer.initializeCommands();
 
@@ -45,7 +49,7 @@ public class CommandHandler {
     List<Class<? extends ExecutableCommand>> classes = new ArrayList<Class<? extends ExecutableCommand>>();
     for (CommandObject command : commandObjects) {
       classes.add(command.getCommand());
-      availableCommands.add(command.getName());
+      addCommand(command.getName());
     }
 
     for (Class<? extends ExecutableCommand> clazz : classes)
