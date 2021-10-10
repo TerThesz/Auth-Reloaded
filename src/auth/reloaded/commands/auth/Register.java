@@ -1,8 +1,9 @@
 package auth.reloaded.commands.auth;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 import auth.reloaded.AuthReloaded;
 import auth.reloaded.Hash;
@@ -11,15 +12,15 @@ import auth.reloaded.mysql.MySqlFunctions;
 import auth.reloaded.other.Utils;
 
 public class Register extends PlayerCommand {
-  private final Configuration config = AuthReloaded.getPlugin(AuthReloaded.class).getConfig();
+  private static Plugin plugin = AuthReloaded.getPluginInstance();
   
   @Override
   public void runCommand(Player player, String[] args) {
     String password = args[0],
       confirm_password = args[1];
 
-    Integer min_length = config.getInt("min-password-length") < 5 ? 5 : config.getInt("min-password-length"),
-      max_length = config.getInt("max-password-length") > 30 ? 30 : config.getInt("max-password-length");
+    Integer min_length = plugin.getConfig().getInt("min-password-length") < 5 ? 5 : plugin.getConfig().getInt("min-password-length"),
+      max_length = plugin.getConfig().getInt("max-password-length") > 30 ? 30 : plugin.getConfig().getInt("max-password-length");
 
     if (password.length() < min_length) {
       player.sendMessage(ChatColor.RED + "Invalid password length. Password must be at least " + min_length + " characters long.");

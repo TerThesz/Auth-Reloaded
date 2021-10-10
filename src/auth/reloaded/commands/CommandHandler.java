@@ -52,6 +52,7 @@ public class CommandHandler {
       commands.put(clazz, newInstance(clazz));
   }
 
+  // TODO: Get rid of this mo'fo
   public static <T> T newInstance(Class<T> clazz) {
     try {
         Constructor<T> constructor = clazz.getDeclaredConstructor();
