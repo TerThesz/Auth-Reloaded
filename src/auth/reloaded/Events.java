@@ -3,6 +3,7 @@ package auth.reloaded;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -30,8 +31,8 @@ public class Events implements Listener {
   }
 
   @EventHandler(priority = EventPriority.HIGH)
-  public void onPlayerJoin(AsyncPlayerPreLoginEvent event) {
-    Integer ips = MySqlFunctions.getIps(event.getAddress().toString());
+  public void onPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
+    Integer ips = MySqlFunctions.getIps(event.getAddress().toString().replace("/", "").split(":")[0]);
     if (ips >= plugin.getConfig().getInt("max-registers-per-ip"))
       event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, ChatColor.RED + "Too many accounts have registered using this IP.");
 

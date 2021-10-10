@@ -23,7 +23,7 @@ public class Register extends PlayerCommand {
 
     String password_salt = Hash.salt();
     String password_hash = Hash.hash(password + password_salt);
-    String ip_hash = Hash.hash(player.getAddress().toString());
+    String ip_hash = Hash.hash(player.getAddress().toString().replace("/", "").split(":")[0]);
 
     Boolean isRegistered = MySqlFunctions.registerPlayer(player, password_hash, password_salt, ip_hash);
 
