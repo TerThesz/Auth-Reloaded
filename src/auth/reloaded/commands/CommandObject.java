@@ -2,15 +2,16 @@ package auth.reloaded.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 
 public class CommandObject {
   private static ConsoleCommandSender console = Bukkit.getConsoleSender();
 
   private String name;
-  private Integer minArgs;
+    private Integer minArgs;
   private Class<? extends ExecutableCommand> command;
+
+  // TODO: status messages
 
   public CommandObject(String name, Integer minArgs, Class<? extends ExecutableCommand> command) {
     this.name = name;
@@ -22,15 +23,11 @@ public class CommandObject {
     return name;
   }
 
-  public Integer minArgs() {
+  public Integer getMinArgs() {
     return minArgs;
   }
 
   public Class<? extends ExecutableCommand> getCommand() {
-    return command;
-  }
-
-  public Class<? extends ExecutableCommand> command() {
     return command;
   }
 
@@ -43,10 +40,8 @@ public class CommandObject {
     private Integer minArgs;
     private Class<? extends ExecutableCommand> command;
 
-    // TODO: add permissions, hasToBeOnline and make minArgs optional
-
     public CommandObject register() {
-      if (name == null || minArgs == null || command == null) {
+      if (name == null || command == null) {
         console.sendMessage(ChatColor.RED + "[AuthReloaded] ERROR -> Invalid command.");
       }
 

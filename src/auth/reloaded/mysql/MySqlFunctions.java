@@ -9,6 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import auth.reloaded.AuthReloaded;
+import auth.reloaded.Hash;
 
 public class MySqlFunctions {
   private static MySql mysql = AuthReloaded.mysql;
@@ -31,7 +32,7 @@ public class MySqlFunctions {
     return false;
   }
 
-  public static void registerPlayer(Player p, String password_hash, String password_salt, String ip_hash, String ip_salt) {
+  public static boolean registerPlayer(Player p, String password_hash, String password_salt, String ip_hash) {
     UUID uuid = p.getUniqueId();
 
     PreparedStatement hasEntry;
@@ -45,34 +46,36 @@ public class MySqlFunctions {
 
       if (playerHasEntry(p)) {
         p.sendMessage(ChatColor.RED + "You are already registered.\nUse " + ChatColor.BOLD + "/login <password>" + ChatColor.RED + " instead.");
-        return;
+        return false;
       }
 
-      PreparedStatement create = mysql.getConnection().prepareStatement("INSERT INTO `" + table + "` VALUES (?,?,?,?,?,?)");
+      PreparedStatement create = mysql.getConnection().prepareStatement("INSERT INTO `" + table + "` VALUES (?,?,?,?,?)");
       
       create.setString(1, uuid.toString());
       create.setString(2, p.getDisplayName());
       create.setString(3, password_hash);
       create.setString(4, password_salt);
       create.setString(5, ip_hash);
-      create.setString(6, ip_salt);
 
       create.executeUpdate();
 
       p.sendMessage(ChatColor.GREEN + "You have been successfully registered.");
+      return true;
     } catch (SQLException e) {
       e.printStackTrace();
     }
+
+    p.sendMessage(ChatColor.RED + "Something went wrong. Please contact the server administrator.");
+    return false;
   }
 
-  public static Integer getIps(Player p) {
+  public static Integer getIps(String ip) {
     PreparedStatement ips;
     try {
       ips = mysql.getConnection().prepareStatement("SELECT count(*) FROM `" + table + "` WHERE ip_hash=?");
-      ips.setString(1, "poop");
-      ResultSet results = ips.executeQuery();
+      ips.setString(1, Hash.hash(ip));
 
-      // TODO: Use ip_hashes
+      ResultSet results = ips.executeQuery();
 
       if (results.next())
         return results.getInt(1);

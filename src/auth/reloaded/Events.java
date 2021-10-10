@@ -12,35 +12,37 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.plugin.Plugin;
 
 import auth.reloaded.mysql.MySqlFunctions;
 
 public class Events implements Listener {
   private final Plugin plugin = AuthReloaded.getPlugin(AuthReloaded.class);
-  private static ArrayList<UUID> unauthenticated = new ArrayList<UUID>();
 
   @EventHandler(priority = EventPriority.HIGH)
   public void onPlayerLogin(PlayerLoginEvent event) {
-    Integer ips = MySqlFunctions.getIps(event.getPlayer());
+    AuthReloaded.addToUnauthenticated(event.getPlayer().getUniqueId());
+  }
+
+  @EventHandler(priority = EventPriority.HIGH)
+  public void onPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
+    Integer ips = MySqlFunctions.getIps(event.getAddress().toString().replace("/", "").split(":")[0]);
     if (ips >= plugin.getConfig().getInt("max-registers-per-ip"))
-      event.disallow(Result.KICK_OTHER, ChatColor.RED + "Too many accounts have registered using this IP.");
+      event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, ChatColor.RED + "Too many accounts have registered using this IP.");
 
     if (ips == -1)
-      event.disallow(Result.KICK_OTHER, ChatColor.RED + "Something went wrong. Please contact the server administrator.");
-
-    setUnauthenticated(event.getPlayer().getUniqueId());
+      event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, ChatColor.RED + "Something went wrong. Please contact the server administrator.");
   }
 
   @EventHandler(priority = EventPriority.HIGH)
   public void onPlayerMove(PlayerMoveEvent event) {
-    if (isUnauthenticated(event.getPlayer().getUniqueId())) {
+    if (AuthReloaded.isUnauthenticated(event.getPlayer().getUniqueId())) {
       Location from = event.getFrom();
       Location to = event.getTo();
       
@@ -51,12 +53,12 @@ public class Events implements Listener {
 
   @EventHandler(priority = EventPriority.HIGH)
   public void onChat(AsyncPlayerChatEvent event) {
-    if (isUnauthenticated(event.getPlayer().getUniqueId())) event.setCancelled(true);
+    if (AuthReloaded.isUnauthenticated(event.getPlayer().getUniqueId())) event.setCancelled(true);
   }
 
   @EventHandler
   public void preCommand(PlayerCommandPreprocessEvent event) {
-    if (isUnauthenticated(event.getPlayer().getUniqueId())) {
+    if (AuthReloaded.isUnauthenticated(event.getPlayer().getUniqueId())) {
       if (!plugin.getConfig().getStringList("allowed-commands-for-unauthenticated").contains(event.getMessage().split(" ")[0].replace("/", "").toLowerCase()))
         event.setCancelled(true);
     }
@@ -64,13 +66,13 @@ public class Events implements Listener {
 
   @EventHandler
   public void onInteract(PlayerInteractEvent event) {
-    if (isUnauthenticated(event.getPlayer().getUniqueId())) event.setCancelled(true);
+    if (AuthReloaded.isUnauthenticated(event.getPlayer().getUniqueId())) event.setCancelled(true);
   }
 
   @EventHandler
   public void onPlayerDamage(EntityDamageEvent event) {
     if (event.getEntity() instanceof Player) {
-      if (isUnauthenticated(((Player) event.getEntity()).getUniqueId()))
+      if (AuthReloaded.isUnauthenticated(((Player) event.getEntity()).getUniqueId()))
         event.setCancelled(true);
       
       // TODO: 5second invincibility after authentication
@@ -79,24 +81,6 @@ public class Events implements Listener {
 
   @EventHandler
   public void onPlayerLeave(PlayerQuitEvent event) {
-    removeUnauthenticated(event.getPlayer().getUniqueId());
-  }
-
-  public static boolean isUnauthenticated(UUID uuid) {
-    return (unauthenticated.contains(uuid));
-  }
-
-  public static boolean setUnauthenticated(UUID uuid) {
-    if (isUnauthenticated(uuid)) return false;
-
-    unauthenticated.add(uuid);
-    return true;
-  }
-
-  public static boolean removeUnauthenticated(UUID uuid) {
-    if (!isUnauthenticated(uuid)) return false;
-
-    unauthenticated.remove(uuid);
-    return true;
+    AuthReloaded.removeFromUnauthenticated(event.getPlayer().getUniqueId());
   }
 }

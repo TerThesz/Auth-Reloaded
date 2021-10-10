@@ -8,12 +8,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 public class CommandHandler {
   private Map<Class<? extends ExecutableCommand>, ExecutableCommand> commands = new HashMap<Class<? extends ExecutableCommand>, ExecutableCommand>();
-  private static List<String> availableCommands = Arrays.asList(new String[] {"prd"});
+  private static List<String> availableCommands = Arrays.asList(new String[] {"register"});
+  // TODO: Automatically add commands on .initializeCommands()
 
   public static List<String> getCommands() {
     return availableCommands;
@@ -30,10 +32,9 @@ public class CommandHandler {
     
     for (CommandObject command : CommandInitializer.getCommands()) {
       if (command.getName().equalsIgnoreCase(cmd.getName())) {
+        if (checkError(sender, command.getMinArgs() != null && args.length < command.getMinArgs(), "Not enough arguments. Expected: " + command.getClass())) return true;
         commands.get(command.getCommand()).executeCommand(sender, args);
 
-        // TODO: Check minArgs, hasToBeOnline, permissions
-        
         executed = true;
       }
     }
@@ -58,5 +59,12 @@ public class CommandHandler {
     } catch (ReflectiveOperationException e) {
         throw new IllegalStateException("Could not invoke no-args constructor of class " + clazz, e);
     }
+  }
+
+  private boolean checkError(CommandSender sender, Boolean sendMessage, String message) {
+    if (sendMessage == true)
+      sender.sendMessage(ChatColor.RED + message);
+    
+    return sendMessage;
   }
 }
