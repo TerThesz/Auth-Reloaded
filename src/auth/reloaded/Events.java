@@ -32,6 +32,8 @@ public class Events implements Listener {
 
   @EventHandler(priority = EventPriority.HIGH)
   public void onPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
+    if (plugin.getConfig().getInt("max-registers-per-ip") <= 0) return;
+    
     Integer ips = MySqlFunctions.getIps(event.getAddress().toString().replace("/", "").split(":")[0]);
     if (ips >= plugin.getConfig().getInt("max-registers-per-ip"))
       event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, ChatColor.RED + "Too many accounts have registered using this IP.");

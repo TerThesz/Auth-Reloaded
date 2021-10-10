@@ -9,5 +9,7 @@ table: 'auth_reloaded'
 shut-down-server-on-mysql-error: true
 
 # Auth settings
-max-registers-per-ip: 3
+max-registers-per-ip: 3 # Use 0 for unlimited registers per ip
 allowed-commands-for-unauthenticated: [ login, l, register, reg ]
+min-password-length: 8 # Anything lower than 5 will be automatically defaulted to 5
+max-password-length: 16 # Anything higher than 30 will be automatically defaulted to 30
